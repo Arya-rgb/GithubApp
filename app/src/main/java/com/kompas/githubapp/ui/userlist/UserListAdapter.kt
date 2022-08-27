@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.kompas.githubapp.R
 import com.kompas.githubapp.data.local.entity.UserEntity
 import com.kompas.githubapp.databinding.ItemUserlistBinding
+import com.kompas.githubapp.ui.detailuser.DetailUserActivity
 
 class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF_CALLBACK)  {
 
@@ -52,6 +53,20 @@ class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF
             itemView.setOnClickListener {
                 //for test
                 Toast.makeText(itemView.context, dataUser.login, Toast.LENGTH_SHORT).show()
+
+                val moveDetail = Intent(itemView.context, DetailUserActivity::class.java).apply {
+                    putExtra("user", dataUser)
+                }
+
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(imgPhoto, "photoUrl"),
+                        Pair(userName, "name")
+                    )
+
+                itemView.context.startActivity(moveDetail, optionsCompat.toBundle())
+
             }
 
         }

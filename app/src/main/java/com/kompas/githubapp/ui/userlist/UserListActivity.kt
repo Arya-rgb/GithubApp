@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kompas.githubapp.BuildConfig
 import com.kompas.githubapp.R
 import com.kompas.githubapp.data.Result
 import com.kompas.githubapp.databinding.ActivityUserlistBinding
@@ -38,7 +39,7 @@ class UserListActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[UserListViewModel::class.java]
 
-        viewModel.getUserList("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").observe(this) { result ->
+        viewModel.getUserList(BuildConfig.GITHUB_TOKEN).observe(this) { result ->
             if (result != null) {
                 when(result) {
                     is Result.Loading -> {

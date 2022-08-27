@@ -9,6 +9,9 @@ android {
     compileSdk 32
 
     defaultConfig {
+
+        //Github has revoked the API key visible in the repository, so please enter your own API key here :)
+        buildConfigField("String", "GITHUB_TOKEN", '"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"')
         applicationId "com.kompas.githubapp"
         minSdk 21
         targetSdk 32
