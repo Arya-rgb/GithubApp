@@ -15,7 +15,7 @@ class UserListActivity : AppCompatActivity() {
         _binding = ActivityUserlistBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        
+
 
     }
 
