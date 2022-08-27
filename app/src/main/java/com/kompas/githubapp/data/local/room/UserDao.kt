@@ -10,10 +10,10 @@ import com.kompas.githubapp.data.local.entity.UserEntity
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM user_data ORDER BY id DESC")
+    @Query("SELECT * FROM user_data ORDER BY id ASC")
     fun getUser(): LiveData<List<UserEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertUser(user: UserEntity)
+    suspend fun insertUser(user: List<UserEntity>)
 
 }

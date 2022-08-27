@@ -20,7 +20,14 @@ class UserRepository private constructor(
 
         try {
             val response = apiService.getUserList("Bearer $apiKey")
-            userDao.insertUser(UserEntity(response.login, response.id, response.avatar_url))
+            val userList = response.map {
+                UserEntity(
+                    it.login,
+                    it.id,
+                    it.avatar_url
+                )
+            }
+            userDao.insertUser(userList)
         } catch (e: Exception) {
             Log.d("userlist", "prepopulateddata: ${e.message.toString()} ")
             emit(Result.Error(e.message.toString()))

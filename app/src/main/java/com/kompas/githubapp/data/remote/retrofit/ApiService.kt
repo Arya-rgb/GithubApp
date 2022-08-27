@@ -9,6 +9,6 @@ interface ApiService {
     @GET("users")
     suspend fun getUserList(
         @Header("Authorization") token: String,
-    ): UserResult
+    ): List<UserResult>
 
 }
