@@ -14,6 +14,22 @@ data class UserResult(
     val avatar_url: String,
 )
 
+data class RepoResult(
+
+    @field:SerializedName("name")
+    val name: String,
+
+    @field:SerializedName("description")
+    val description: String,
+
+    @field:SerializedName("updated_at")
+    val updated_at: String,
+
+    @field:SerializedName("stargazers_count")
+    val stargazers_count: String,
+)
+
+
 
 data class DataDetailResult(
 

@@ -9,6 +9,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.kompas.githubapp.BuildConfig
 import com.kompas.githubapp.data.Result
@@ -60,6 +61,10 @@ class DetailUserActivity : AppCompatActivity() {
                         binding?.txtTwitter?.text = "@${result.data.twitter_username}"
                         binding?.txtDescription?.text = result.data.bio
 
+                        //after succes, get repo list with recylerview
+
+                        getRepo(dataUser.login)
+
                     }
                     is Result.Error -> {
                         binding?.progressBar2?.visibility = View.GONE
@@ -76,6 +81,44 @@ class DetailUserActivity : AppCompatActivity() {
 //        binding?.txtNameUser?.text = dataUser.login
 
 
+
+    }
+
+    private fun getRepo(name : String) {
+
+        val repoAdapter = RepoListAdapter()
+
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[DetailUserViewModel::class.java]
+
+        viewModel.getRepoList(BuildConfig.GITHUB_TOKEN, name).observe(this) { result ->
+            if (result != null) {
+                when(result) {
+                    is Result.Loading -> {
+                        binding?.progressBar2?.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding?.progressBar2?.visibility = View.GONE
+                        val repoData = result.data
+                        repoAdapter.submitList(repoData)
+                    }
+                    is Result.Error -> {
+                        binding?.progressBar2?.visibility = View.GONE
+                        Toast.makeText(
+                            this,
+                            result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
+
+        binding?.rvRepo?.apply {
+            layoutManager = LinearLayoutManager(this@DetailUserActivity)
+            setHasFixedSize(true)
+            adapter = repoAdapter
+        }
 
     }
 

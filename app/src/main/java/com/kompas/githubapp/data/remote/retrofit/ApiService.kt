@@ -1,6 +1,7 @@
 package com.kompas.githubapp.data.remote.retrofit
 
 import com.kompas.githubapp.data.remote.response.DataDetailResult
+import com.kompas.githubapp.data.remote.response.RepoResult
 import com.kompas.githubapp.data.remote.response.UserResult
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -18,5 +19,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("name") name: String
     ): DataDetailResult
+
+    @GET("users/{user}/repos")
+    suspend fun getUserRepository(
+        @Header("Authorization") token: String,
+        @Path("user") user: String
+    ): List<RepoResult>
 
 }

@@ -7,4 +7,6 @@ class DetailUserViewModel(private val userRepository: UserRepository) : ViewMode
 
     fun getUserData(apiKey: String, name: String) = userRepository.getDataUser(apiKey, name)
 
+    fun getRepoList(apiKey: String, name: String) = userRepository.getRepoList(apiKey, name)
+
 }
