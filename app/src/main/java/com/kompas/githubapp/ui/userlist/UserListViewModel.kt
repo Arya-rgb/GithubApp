@@ -8,4 +8,6 @@ class UserListViewModel(private val userRepository: UserRepository) : ViewModel(
 
     fun getUserList(apiKey: String) = userRepository.getUserList(apiKey)
 
+    fun searchUser(apiKey: String, query: String) = userRepository.getSearchData(apiKey, query)
+
 }

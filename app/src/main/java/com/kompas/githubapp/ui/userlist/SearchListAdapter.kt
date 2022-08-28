@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kompas.githubapp.R
 import com.kompas.githubapp.data.local.entity.UserEntity
+import com.kompas.githubapp.data.remote.response.UserResult
 import com.kompas.githubapp.databinding.ItemUserlistBinding
 import com.kompas.githubapp.ui.detailuser.DetailUserActivity
 
-class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF_CALLBACK)  {
+//for search, the data not saved in database, so need to create new adapter
+class SearchListAdapter : ListAdapter<UserResult, SearchListAdapter.ViewHolder>(DIFF_CALLBACK)  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -43,7 +45,7 @@ class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF
         private var imgPhoto: ImageView = itemView.findViewById(R.id.tv_image_profile)
         private var userName: TextView = itemView.findViewById(R.id.text_user_name)
 
-        fun bind(dataUser: UserEntity) {
+        fun bind(dataUser: UserResult) {
             Glide.with(itemView.context)
                 .load(dataUser.avatar_url)
                 .into(imgPhoto)
@@ -63,6 +65,7 @@ class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
                         Pair(imgPhoto, "photoUrl"),
+                        Pair(userName, "name")
                     )
 
                 itemView.context.startActivity(moveDetail, optionsCompat.toBundle())
@@ -76,16 +79,16 @@ class UserListAdapter : ListAdapter<UserEntity, UserListAdapter.ViewHolder>(DIFF
 
 
     companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<UserEntity> =
-            object : DiffUtil.ItemCallback<UserEntity>() {
-                override fun areItemsTheSame(oldUser: UserEntity, newUser: UserEntity): Boolean {
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<UserResult> =
+            object : DiffUtil.ItemCallback<UserResult>() {
+                override fun areItemsTheSame(oldUser: UserResult, newUser: UserResult): Boolean {
                     return oldUser.id == newUser.id
                 }
 
                 @SuppressLint("DiffUtilEquals")
                 override fun areContentsTheSame(
-                    oldUser: UserEntity,
-                    newUser: UserEntity
+                    oldUser: UserResult,
+                    newUser: UserResult
                 ): Boolean {
                     return oldUser == newUser
                 }

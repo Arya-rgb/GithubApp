@@ -38,18 +38,19 @@ class DetailUserActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun getData() {
 
-        val dataUser = intent.getParcelableExtra<UserEntity>("user") as UserEntity
+        val login = intent.getStringExtra("username")
+        val photoUrl = intent.getStringExtra("photoUrl")
 
         binding?.imageView?.let {
             Glide.with(this@DetailUserActivity)
-                .load(dataUser.avatar_url)
+                .load(photoUrl)
                 .into(it)
         }
 
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[DetailUserViewModel::class.java]
 
-        viewModel.getUserData(BuildConfig.GITHUB_TOKEN, dataUser.login).observe(this) { result ->
+        viewModel.getUserData(BuildConfig.GITHUB_TOKEN, login.toString()).observe(this) { result ->
             if (result != null) {
                 when(result) {
                     is Result.Loading -> {
@@ -63,7 +64,7 @@ class DetailUserActivity : AppCompatActivity() {
 
                         //after succes, get repo list with recylerview
 
-                        getRepo(dataUser.login)
+                        getRepo(login.toString())
 
                     }
                     is Result.Error -> {

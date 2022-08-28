@@ -1,7 +1,22 @@
 package com.kompas.githubapp.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+data class SearchResult(
+    @field:SerializedName("total_count")
+    val total_count: String,
+
+    @field:SerializedName("incomplete_results")
+    val incomplete_results: Boolean,
+
+    @field:SerializedName("items")
+    val items: List<UserResult>,
+
+)
+
+@Parcelize
 data class UserResult(
 
     @field:SerializedName("login")
@@ -12,7 +27,7 @@ data class UserResult(
 
     @field:SerializedName("avatar_url")
     val avatar_url: String,
-)
+) : Parcelable
 
 data class RepoResult(
 

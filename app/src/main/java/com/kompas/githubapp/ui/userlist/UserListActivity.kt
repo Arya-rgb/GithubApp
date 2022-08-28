@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,62 @@ class UserListActivity : AppCompatActivity() {
 
         setupView()
         showListUser()
+
+        searchUser()
+
+    }
+
+    private fun searchUser() {
+
+        binding?.searchView?.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                searchFunction(p0.toString())
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+
+        })
+
+    }
+
+    private fun searchFunction(query: String) {
+
+        val searchListAdapter = SearchListAdapter()
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[UserListViewModel::class.java]
+
+        viewModel.searchUser(BuildConfig.GITHUB_TOKEN, query).observe(this) { result ->
+            if (result != null) {
+                when(result) {
+                    is Result.Loading -> {
+                        binding?.progressBar?.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        val searchData = result.data
+                        searchListAdapter.submitList(searchData)
+                    }
+                    is Result.Error -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        Toast.makeText(
+                            this,
+                            result.error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
+
+        binding?.recyclerView?.apply {
+            layoutManager = LinearLayoutManager(this@UserListActivity)
+            setHasFixedSize(true)
+            adapter = searchListAdapter
+        }
 
     }
 

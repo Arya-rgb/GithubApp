@@ -8,6 +8,8 @@ import com.kompas.githubapp.data.local.entity.UserEntity
 import com.kompas.githubapp.data.local.room.UserDao
 import com.kompas.githubapp.data.remote.response.DataDetailResult
 import com.kompas.githubapp.data.remote.response.RepoResult
+import com.kompas.githubapp.data.remote.response.SearchResult
+import com.kompas.githubapp.data.remote.response.UserResult
 import com.kompas.githubapp.data.remote.retrofit.ApiService
 import java.lang.Exception
 
@@ -50,6 +52,20 @@ class UserRepository private constructor(
             emit(Result.Success(response))
         } catch (e: Exception) {
             Log.d("UserRespository", "Getrepo ${e.message.toString()}")
+            emit(Result.Error(e.message.toString()))
+        }
+
+    }
+
+    fun getSearchData(token: String, query: String) : LiveData<Result<List<UserResult>>> = liveData {
+
+        emit(Result.Loading)
+
+        try {
+            val response = apiService.searchUser("Bearer $token", query)
+            emit(Result.Success(response.items))
+        } catch (e: Exception) {
+            Log.d("userSearch", "GetSearch ${e.message.toString()}")
             emit(Result.Error(e.message.toString()))
         }
 
