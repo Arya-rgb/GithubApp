@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kompas.githubapp.data.UserRepository
 import com.kompas.githubapp.di.Injection
+import com.kompas.githubapp.ui.detailuser.DetailUserViewModel
 import com.kompas.githubapp.ui.userlist.UserListViewModel
 
 class ViewModelFactory private constructor(private val userRepository: UserRepository) :
@@ -14,6 +15,9 @@ class ViewModelFactory private constructor(private val userRepository: UserRepos
         // to be filled with view model
         if (modelClass.isAssignableFrom(UserListViewModel::class.java)) {
             return UserListViewModel(userRepository) as T
+        }
+        if (modelClass.isAssignableFrom(DetailUserViewModel::class.java)) {
+            return DetailUserViewModel(userRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

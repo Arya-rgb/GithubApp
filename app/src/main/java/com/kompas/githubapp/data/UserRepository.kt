@@ -6,6 +6,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.kompas.githubapp.data.local.entity.UserEntity
 import com.kompas.githubapp.data.local.room.UserDao
+import com.kompas.githubapp.data.remote.response.DataDetailResult
 import com.kompas.githubapp.data.remote.retrofit.ApiService
 import java.lang.Exception
 
@@ -36,6 +37,17 @@ class UserRepository private constructor(
             userDao.getUser().map { Result.Success(it) }
         emitSource(localData)
 
+    }
+
+    fun getDataUser(token: String, name: String): LiveData<Result<DataDetailResult>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDataUser("Bearer $token", name)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            Log.d("UserRepository", "getUserData: ${e.message.toString()}")
+            emit(Result.Error(e.message.toString()))
+        }
     }
 
     companion object {

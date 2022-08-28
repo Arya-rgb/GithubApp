@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kompas.githubapp.BuildConfig
-import com.kompas.githubapp.R
 import com.kompas.githubapp.data.Result
 import com.kompas.githubapp.databinding.ActivityUserlistBinding
 import com.kompas.githubapp.viewmodel.ViewModelFactory
@@ -27,8 +26,6 @@ class UserListActivity : AppCompatActivity() {
 
         setupView()
         showListUser()
-
-
 
     }
 
