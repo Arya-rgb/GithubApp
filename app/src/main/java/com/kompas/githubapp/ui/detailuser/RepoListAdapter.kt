@@ -2,6 +2,7 @@ package com.kompas.githubapp.ui.detailuser
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kompas.githubapp.R
 import com.kompas.githubapp.data.remote.response.RepoResult
 import com.kompas.githubapp.databinding.ItemRepoBinding
+import java.text.SimpleDateFormat
+import java.time.OffsetDateTime
 
 class RepoListAdapter : ListAdapter<RepoResult, RepoListAdapter.ViewHolder>(DIFF_CALLBACK) {
 
@@ -33,18 +36,18 @@ class RepoListAdapter : ListAdapter<RepoResult, RepoListAdapter.ViewHolder>(DIFF
         private var repoStar: TextView = itemView.findViewById(R.id.txt_star)
         private var repoUpdated: TextView = itemView.findViewById(R.id.txt_updated)
 
+        @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(dataAddress: RepoResult) {
             repoName.text = dataAddress.name
             repoDescription.text = dataAddress.description
             repoStar.text = dataAddress.stargazers_count
-            repoUpdated.text = dataAddress.updated_at
 
+            val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm")
+            val formattedDate = parser.parse(dataAddress.updated_at)?.let { formatter.format(it) }
 
-//            itemView.setOnClickListener {
-//                val moveEdit = Intent(itemView.context, UpdateAddressActivity::class.java)
-//                moveEdit.putExtra("dataAddress", dataAddress)
-//                itemView.context.startActivity(moveEdit)
-//            }
+            repoUpdated.text = "Updated At $formattedDate"
+
         }
     }
 
