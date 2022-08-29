@@ -11,7 +11,7 @@ android {
     defaultConfig {
 
         //Github has revoked the API key visible in the repository, so please enter your own API key here :)
-        buildConfigField("String", "GITHUB_TOKEN", '"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"')
+        buildConfigField("String", "GITHUB_TOKEN", '"enter your key here"')
         applicationId "com.kompas.githubapp"
         minSdk 21
         targetSdk 32
@@ -72,5 +72,23 @@ dependencies {
 
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //testing
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+
+    //special testing
+    testImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1" //TestDispatcher
+
+    //special instrumentation testing
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1" //TestDispatcher
+
+
+    //mockito
+    testImplementation 'org.mockito:mockito-core:4.4.0'
+    testImplementation 'org.mockito:mockito-inline:4.4.0'
 
 }

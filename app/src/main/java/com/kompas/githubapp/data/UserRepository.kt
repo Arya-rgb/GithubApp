@@ -13,7 +13,7 @@ import com.kompas.githubapp.data.remote.response.UserResult
 import com.kompas.githubapp.data.remote.retrofit.ApiService
 import java.lang.Exception
 
-class UserRepository private constructor(
+class UserRepository constructor(
     private val apiService: ApiService,
     private val userDao: UserDao
 ) {
