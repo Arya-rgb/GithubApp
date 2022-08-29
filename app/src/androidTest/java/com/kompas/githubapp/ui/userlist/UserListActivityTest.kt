@@ -28,6 +28,6 @@ class UserListActivityTest {
     fun loadUser() {
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
     }
-    
+
 
 }
